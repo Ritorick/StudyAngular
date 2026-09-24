@@ -1,3 +1,11 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background-image: url("./background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .container{
     display:flex;
     flex-direction: column;
@@ -17,5 +25,50 @@
 
 .BMIDescription {
     width: 80%;
-    margin-top: 10px;
+    margin-top: 3%;
+}
+
+.input {
+    width: 100%;
+    margin-top: 3%;
+}
+
+.heightInputBox {
+    width: 40%;
+    height: 7vh;
+    margin: auto;
+    text-align: center;
+    font-size: 6vmin;
+    border-radius:10px;
+}
+.weightInputBox {
+    width: 40%;
+    height: 7vh;
+    margin: auto;
+    text-align: center;
+    font-size: 6vmin;
+    border-radius:10px;
+}
+
+.calcButton {
+    margin-top: 3%;
+    width: 30%;
+    padding: 1.5%;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: rgb(140, 175, 140);
+    transition: 300ms ease-in-out;
+}
+
+.calcButton:hover {
+    background-color: bisque;
+}
+
+.bmiAnswer {
+    margin-top: 2%;
+    font-size: 30px;
+}
+
+.bmiAsses {
+    font-size: 25px;
 }
