@@ -1,0 +1,21 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    white-space: pre-line;
+    text-align: center;
+    align-items: center;
+}
+
+.title {
+    margin-top: 20px;
+    width: 40%;
+    font-size: 30px;
+    background-color: aquamarine;
+    border-radius: 20px;
+    color: rgb(0, 40, 114);
+}
+
+.BMIDescription {
+    width: 80%;
+    margin-top: 10px;
+}
