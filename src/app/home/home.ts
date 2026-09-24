@@ -11,7 +11,7 @@ export class Home {
   protected readonly title = signal('hello-world-app');
   protected readonly isServerRunning = signal(true);
 
-  ClickTestDefault = "This Server is Running\nHello World!";
+  ClickTestDefault = "作ってみました！\nこのボタンを押すと、Click!と表示され\nResetで元に戻すことができます。\n※本命はBMIですかね？笑";
   ClickTest = this.ClickTestDefault;
 
   onClick(event : Event) {

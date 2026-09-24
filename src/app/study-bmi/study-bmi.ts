@@ -18,6 +18,10 @@ export class StudyBMI {
   assessment: String = "";
   color = 'white';
 
+  abs(value:number) {
+    return Math.abs(value);
+  }
+
   BMIDataInputForm = new FormGroup({
     weight: new FormControl('', [
       Validators.required
@@ -33,6 +37,7 @@ export class StudyBMI {
 
     this.bmi = Number((weight / ((height / 100) ** 2)).toFixed(1));
     this.height = height;
+    this.weight = weight;
     if (this.bmi >= 40) {
       this.assessment = "肥満(4度)";
       this.color = 'darkred'

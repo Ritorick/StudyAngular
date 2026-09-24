@@ -30,5 +30,7 @@
     <div class="bmiAnswer">BMI : {{bmi}}</div>
     <div class="bmiAsses" [style.color]="color">{{assessment}}</div>
     <div>身長の適正体重 : {{(((height/100)**2)*22).toFixed(1)}}Kg</div>
-    <button class="routeHome" routerLink="" style="margin-top: 20px;">HOME</button>
+    <div>適正体重との差 : {{abs((weight-(((height/100)**2)*22))).toFixed(1)}}Kg</div>
+    <button class="routeHome" routerLink="" >HOMEに戻る</button>
+    <div></div>
 </div>

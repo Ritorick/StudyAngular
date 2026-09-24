@@ -5,13 +5,14 @@
 }
 .test {
     width: 30%;
-    background-color: black;
+    background-color:beige;
     color: blueviolet;
-    padding: 50px;
+    padding: 20px;
     margin: auto;
     text-align: center;
     border-radius: 20px;
     transition: 300ms ease-in-out;
+    margin-top: 20px;
 }
 .test:hover {
     background-color: grey;

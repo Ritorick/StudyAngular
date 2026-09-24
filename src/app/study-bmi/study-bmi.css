@@ -72,3 +72,17 @@
 .bmiAsses {
     font-size: 25px;
 }
+
+.routeHome {
+    margin-top: 5vh;
+    width: 20%;
+    padding: 1.5%;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    transition: 300ms ease-in-out;
+}
+
+.routeHome:hover {
+    background-color: bisque;
+}
