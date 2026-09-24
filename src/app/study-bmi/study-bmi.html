@@ -1,5 +1,30 @@
 <div class="container">
     <div class="title">BMI計算</div>
     <div class="BMIDescription">BMI（Body Mass Index）はボディマス指数と呼ばれ、体重と身長から算出される肥満度を表す体格指数です。子供には別の指数が存在しますが、成人ではBMIが国際的な指標として用いられています。健康を維持するためは日頃からBMIを把握することが重要です。</div>
-    <button class="routeHome" routerLink="">HOME</button>
+
+    <form [formGroup]="BMIDataInputForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="height">身長</label>
+            <input
+            id="height"
+            type="height"
+            formControlName="height">
+            @if(BMIDataInputForm.controls.height.invalid && BMIDataInputForm.controls.height.touched) {
+                <p>身長を入力してください。</p>
+            }
+        </div>
+        <div>
+            <label for="weight">体重</label>
+            <input
+            id="weight"
+            type="weight"
+            formControlName="weight">
+            @if(BMIDataInputForm.controls.weight.invalid && BMIDataInputForm.controls.weight.touched) {
+                <p>体重を入力してください。</p>
+            }
+        </div>
+        <button type="submit" [disabled]="BMIDataInputForm.invalid">計算する</button>
+    </form>
+    <div>{{bmi}}</div>
+    <button class="routeHome" routerLink="" style="margin-top: 20px;">HOME</button>
 </div>
