@@ -2,6 +2,8 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.24.
 
+このアプリケーションは、個人開発による未署名exeファイルのため、Windows SmartScreenなどによりブロックされる可能性があります。
+
 ## Development server
 
 To start a local development server, run:
