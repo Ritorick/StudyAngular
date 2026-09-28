@@ -34,16 +34,16 @@
 }
 
 .heightInputBox {
-    width: 40%;
-    height: 7vh;
+    width: 50%;
+    height: 10vh;
     margin: auto;
     text-align: center;
     font-size: 6vmin;
     border-radius:10px;
 }
 .weightInputBox {
-    width: 40%;
-    height: 7vh;
+    width: 50%;
+    height: 10vh;
     margin: auto;
     text-align: center;
     font-size: 6vmin;
@@ -75,9 +75,9 @@
 
 .routeHome {
     margin-top: 5vh;
-    width: 20%;
+    width: auto;
     padding: 1.5%;
-    font-size: 20px;
+    font-size: 100%;
     border-radius: 10px;
     background-color: rgb(255, 255, 255);
     transition: 300ms ease-in-out;
