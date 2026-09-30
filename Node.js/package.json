@@ -12,5 +12,10 @@
   "type": "commonjs",
   "dependencies": {
     "mysql2": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2"
   }
 }

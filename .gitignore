@@ -46,3 +46,6 @@ Thumbs.db
 
 #Release Folder
 release/
+
+#environment
+/Node.js/.env
