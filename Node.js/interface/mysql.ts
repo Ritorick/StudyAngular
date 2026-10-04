@@ -1,4 +1,4 @@
-import mysql from "mysql2/promise";
+import mysql, { RowDataPacket } from "mysql2/promise";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -32,7 +32,7 @@ async function verifyConnection(): Promise<boolean> {
     }
 }
 
-async function executeSQL(command: string): Promise<boolean> {
+async function executeSQL(command: string): Promise<mysql.RowDataPacket[]> {
     const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
         port: Number(process.env.DB_PORT) || 3000,
@@ -42,17 +42,18 @@ async function executeSQL(command: string): Promise<boolean> {
     });
 
     try {
-        const [rows] = await connection.execute(command);
+        const [rows] = await connection.execute<RowDataPacket[]>(command);
 
         console.table(rows);
-        return true;
+        return rows;
     } catch(error) {
         if(error instanceof Error) {
             console.error("MySQL接続失敗", error.message);
+            throw error.message;
         } else {
             console.log("MySQL接続失敗", error);
+            throw error;
         }
-        return false;
     }finally {
         await connection.end();
     }

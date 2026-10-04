@@ -1,4 +1,4 @@
-import { verifyConnection } from "./interface/mysql";
+import { verifyConnection, executeSQL } from "./interface/mysql";
 import express, { Request, Response } from "express";
 const app = express();
 const port: Number = 3000;
@@ -6,8 +6,9 @@ const port: Number = 3000;
 console.log("Node.js server starting up");
 
 async function listen(): Promise<void> {
-    app.get("/api/records", (req: Request, res: Response): void => {
-        console.log(req.query);//クエリー出力(Obj)
+    app.use(express.json());
+    app.get("/api/records", async (req: Request, res: Response): Promise<void> => {
+        console.log("GET", req.query);//クエリー出力(Obj)
 
         let checkIfNumber: RegExp = /^[0-9]+$/;//数字判定正規表現
         try {
@@ -15,11 +16,47 @@ async function listen(): Promise<void> {
                 const limit = req.query.limit;
                 if(typeof limit === "string" && checkIfNumber.test(limit)) {
                     console.log(parseInt(limit, 10));//radix is 10(進数)
-                    res.send(`${req.method}`);
+                    const query_result = await executeSQL(`SELECT * FROM bmi_records ORDER by id ASC LIMIT ${limit}`);
+                    res.send(query_result);
+                    console.log(query_result[0]);
                 }
+            } else {
+                res.send("please put in limit");
             }
         } catch(err) {
-            console.log("err")
+            console.log("err");
+            res.send(`${req.method} error`);
+        }
+    });
+
+    app.post("/api/records", async (req: Request, res: Response): Promise<void> => {
+        console.log("POST", req.body);//クエリー出力(Obj)
+
+        let checkIfNumber: RegExp = /^[0-9]+$/;//数字判定正規表現
+        try {
+            const query = req.body;
+            const requiredKeys = ["user_id", "height", "weight"];
+
+            const missingKeys = requiredKeys.filter(key => !(key in query));
+
+            if (missingKeys.length > 0) {
+                res.status(400).send({
+                    error : "必要なキーがありません",
+                    missingKeys: missingKeys
+                });
+                return;
+            }
+
+            const bmi = Number((query.weight / ((query.height / 100) ** 2)).toFixed(1));
+            const query_result = await executeSQL(`INSERT INTO bmi_records (user_id, height, weight) VALUES ('tester', ${query.height}, ${query.weight});`);
+            console.log(query_result);
+            res.send({
+                message: "キーを確認",
+                data: query,
+                bmi: bmi
+            });
+        } catch(err) {
+            console.log("err");
             res.send(`${req.method} error`);
         }
     });

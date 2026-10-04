@@ -47,16 +47,17 @@ async function executeSQL(command) {
     try {
         const [rows] = await connection.execute(command);
         console.table(rows);
-        return true;
+        return rows;
     }
     catch (error) {
         if (error instanceof Error) {
             console.error("MySQL接続失敗", error.message);
+            throw error.message;
         }
         else {
             console.log("MySQL接続失敗", error);
+            throw error;
         }
-        return false;
     }
     finally {
         await connection.end();
