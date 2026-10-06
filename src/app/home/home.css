@@ -1,31 +1,153 @@
-.container{
-    display:flex;
+:host {
+    display: block;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url("./background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    padding: 40px 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 440px; /* ログイン画面としてコンパクトで美しい幅 */
+    margin: 0 auto;
     white-space: pre-line;
+    box-sizing: border-box;
 }
-.test {
-    width: 30%;
-    background-color:beige;
-    color: blueviolet;
-    padding: 20px;
-    margin: auto;
-    text-align: center;
+
+/* ログインカード（すりガラス風デザイン） */
+.login-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    padding: 32px 24px;
     border-radius: 20px;
-    transition: 300ms ease-in-out;
-    margin-top: 20px;
-}
-.test:hover {
-    background-color: grey;
-}
-
-.reset {
-    margin: auto;
-    margin-top: 10px;
-    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-.routeBMI {
-    margin:auto;
-    margin-top: 10px;
-    padding: 10px;
+.login-header {
+    text-align: center;
+}
+
+.login-title {
+    font-size: clamp(22px, 5vw, 26px);
+    font-weight: bold;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 8px 0;
+}
+
+.login-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* フォーム全体 */
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0;
+}
+
+.input-group {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.input-field-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* 入力ボックス（BMI画面とデザインを統一） */
+.heightInputBox {
+    width: 100%;
+    height: 50px;
+    padding: 0 16px;
+    font-size: 18px;
+    border: 2px solid #e1e8ed;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.heightInputBox:focus {
+    border-color: #0072ff;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 114, 255, 0.1);
+}
+
+.error-msg {
+    color: #e74c3c;
+    font-size: 12px;
+    margin: 4px 0 0 0;
+}
+
+/* ログインボタン */
+.calcButton {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+    box-sizing: border-box;
+    margin-top: 4px;
+}
+
+.calcButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 114, 255, 0.4);
+}
+
+.calcButton:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* 画面サイズに応じた微調整 */
+@media (max-width: 480px) {
+    :host {
+        padding: 20px 12px;
+    }
+    .login-card {
+        padding: 24px 18px;
+    }
 }

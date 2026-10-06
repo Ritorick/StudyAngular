@@ -1,0 +1,11 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    white-space: pre-line;
+}
+
+.routeBMI {
+    margin:auto;
+    margin-top: 10px;
+    padding: 10px;
+}

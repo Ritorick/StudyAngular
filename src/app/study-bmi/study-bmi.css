@@ -1,88 +1,272 @@
 :host {
     display: block;
     min-height: 100vh;
-    background-image: url("./background.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url("./background.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    padding: 24px 16px;
+    box-sizing: border-box;
 }
-.container{
-    display:flex;
+
+.container {
+    display: flex;
     flex-direction: column;
-    white-space: pre-line;
-    text-align: center;
     align-items: center;
+    width: 100%;
+    max-width: 600px; /* PCでも広がりすぎない最大幅 */
+    margin: 0 auto;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+/* タイトル・説明カード */
+.title-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .title {
-    margin-top: 20px;
-    width: 40%;
-    font-size: 30px;
-    background-color: aquamarine;
-    border-radius: 20px;
-    color: rgb(0, 40, 114);
+    font-size: clamp(22px, 5vw, 26px); /* 画面幅に応じて可変 */
+    font-weight: bold;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
 }
 
 .BMIDescription {
-    width: 80%;
-    margin-top: 3%;
+    font-size: clamp(13px, 3.5vw, 14px);
+    line-height: 1.6;
+    color: #555;
+    white-space: pre-line;
 }
 
-.input {
+/* 入力フォームカード：レスポンシブなグリッド構造 */
+.input-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
     width: 100%;
-    margin-top: 3%;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* デフォルトは左右に身長・体重を配置 */
+    gap: 16px;
+    box-sizing: border-box;
 }
 
-.heightInputBox {
-    width: 50%;
-    height: 10vh;
-    margin: auto;
-    text-align: center;
-    font-size: 6vmin;
-    border-radius:10px;
-}
-.weightInputBox {
-    width: 50%;
-    height: 10vh;
-    margin: auto;
-    text-align: center;
-    font-size: 6vmin;
-    border-radius:10px;
+/* 身長・体重の入力グループを横並びからスマホでは縦並びに可変 */
+.input-group {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
-.calcButton {
-    margin-top: 3%;
-    width: 30%;
-    padding: 1.5%;
-    font-size: 20px;
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+}
+
+.input-field-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.heightInputBox, .weightInputBox {
+    width: 100%;
+    height: 48px;
+    padding: 0 40px 0 14px; /* 単位が文字と被らないよう右側に余白 */
+    font-size: 18px;
+    border: 2px solid #e1e8ed;
     border-radius: 10px;
-    background-color: rgb(140, 175, 140);
-    transition: 300ms ease-in-out;
+    background-color: #f8fafc;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
 }
 
-.calcButton:hover {
-    background-color: bisque;
+.heightInputBox:focus, .weightInputBox:focus {
+    border-color: #0072ff;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 114, 255, 0.1);
+}
+
+.unit {
+    position: absolute;
+    right: 12px;
+    color: #888;
+    font-weight: 600;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.error-msg {
+    color: #e74c3c;
+    font-size: 11px;
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+/* 計算ボタンはフォーム内で2カラムの幅いっぱいに跨ぐ */
+.calcButton {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    margin-top: 4px;
+    box-sizing: border-box;
+}
+
+.calcButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
+.calcButton:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* 結果表示カード */
+.result-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bmiAnswer-box .label {
+    font-size: 12px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .bmiAnswer {
-    margin-top: 2%;
-    font-size: 30px;
+    font-size: clamp(32px, 8vw, 40px);
+    font-weight: 800;
+    color: #2c3e50;
+    margin-top: 2px;
 }
 
 .bmiAsses {
-    font-size: 25px;
+    font-size: clamp(16px, 4vw, 18px);
+    font-weight: bold;
+    padding: 6px 14px;
+    background: #f1f5f9;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 0 auto;
 }
 
-.routeHome {
-    margin-top: 5vh;
-    width: auto;
-    padding: 1.5%;
-    font-size: 100%;
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.stat-item {
+    background: #f8fafc;
+    padding: 12px;
     border-radius: 10px;
-    background-color: rgb(255, 255, 255);
-    transition: 300ms ease-in-out;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.stat-value {
+    font-size: clamp(16px, 4vw, 18px);
+    font-weight: bold;
+    color: #1e293b;
+}
+
+.stat-value small {
+    font-size: 11px;
+    font-weight: normal;
+    color: #64748b;
+}
+
+/* チャートラッパー（リサイズに対応させるため高さと相対位置を指定） */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 260px; /* グラフの表示高さを指定 */
+    max-width: 100%;
+    margin-top: 10px;
+}
+
+/* ホームに戻るボタン */
+.routeHome {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 .routeHome:hover {
-    background-color: bisque;
+    background-color: #ffffff;
+    color: #0f172a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================
+   メディアクエリ: スマホなど狭い画面用（縦並びへ変更）
+   ================================---------- */
+@media (max-width: 480px) {
+    :host {
+        padding: 16px 12px;
+    }
+
+    .input-card {
+        grid-template-columns: 1fr; /* スマホでは身長と体重の入力を縦並びにする */
+        padding: 18px;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr; /* 結果の適正体重項目もスマホでは縦並び */
+    }
 }

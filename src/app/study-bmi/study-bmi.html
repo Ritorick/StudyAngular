@@ -1,36 +1,86 @@
-<div class="container">
-    <div class="title">BMI計算</div>
-    <div class="BMIDescription">BMI（Body Mass Index）はボディマス指数と呼ばれ、体重と身長から算出される肥満度を表す体格指数です。子供には別の指数が存在しますが、成人ではBMIが国際的な指標として用いられています。健康を維持するためは日頃からBMIを把握することが重要です。</div>
+<div class="bmi-wrapper">
+    <div class="container">
+        <!-- ヘッダータイトル -->
+        <div class="title-card">
+            <div class="title">BMI ＆ 体重管理システム</div>
+            <div class="BMIDescription">
+                BMI（Body Mass Index）は身長と体重から算出される肥満度を表す国際的な体格指標です。日頃から適正体重を把握し、健康的なライフスタイルを維持しましょう。
+            </div>
+        </div>
 
-    <form [formGroup]="BMIDataInputForm" (ngSubmit)="onSubmit()" class="input">
-        <div>
-            <label for="height">身長</label><br>
-            <input
-            id="height"
-            type="height"
-            formControlName="height"
-            class="heightInputBox">
-            @if(BMIDataInputForm.controls.height.invalid && BMIDataInputForm.controls.height.touched) {
-                <p style="color:red">身長を入力してください。</p>
-            }
+        <!-- 入力フォームカード -->
+        <form [formGroup]="BMIDataInputForm" (ngSubmit)="onSubmit()" class="input-card">
+            <div class="input-group">
+                <label for="height">身長 (cm)</label>
+                <div class="input-field-wrapper">
+                    <input
+                        id="height"
+                        type="number"
+                        formControlName="height"
+                        class="heightInputBox"
+                        placeholder="例: 170">
+                    <span class="unit">cm</span>
+                </div>
+                @if(BMIDataInputForm.controls.height.invalid && BMIDataInputForm.controls.height.touched) {
+                    <p class="error-msg">⚠️ 身長を入力してください。</p>
+                }
+            </div>
+
+            <div class="input-group">
+                <label for="weight">体重 (kg)</label>
+                <div class="input-field-wrapper">
+                    <input
+                        id="weight"
+                        type="number"
+                        formControlName="weight"
+                        class="weightInputBox"
+                        placeholder="例: 65">
+                    <span class="unit">kg</span>
+                </div>
+                @if(BMIDataInputForm.controls.weight.invalid && BMIDataInputForm.controls.weight.touched) {
+                    <p class="error-msg">⚠️ 体重を入力してください。</p>
+                }
+            </div>
+
+            <button type="submit" [disabled]="BMIDataInputForm.invalid" class="calcButton">
+                計算する
+            </button>
+        </form>
+
+        <!-- 結果表示エリア -->
+        <div class="result-card">
+            <div class="bmiAnswer-box">
+                <span class="label">BMIスコア</span>
+                <div class="bmiAnswer">{{bmi}}</div>
+            </div>
+
+            <div class="bmiAsses" [style.color]="color">{{assessment}}</div>
+
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-label">適正体重</span>
+                    <span class="stat-value">{{(((height/100)**2)*22).toFixed(1)}} <small>Kg</small></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">適正体重との差</span>
+                    <span class="stat-value">{{abs((weight-(((height/100)**2)*22))).toFixed(1)}} <small>Kg</small></span>
+                </div>
+            </div>
+
+            <!-- チャートエリア -->
+            <div class="chart-container">
+                <canvas
+                  baseChart
+                  [data]="chartData"
+                  [options]="chartOptions"
+                  [type]="'line'">
+                </canvas>
+            </div>
         </div>
-        <div>
-            <label for="weight">体重</label><br>
-            <input
-            id="weight"
-            type="weight"
-            formControlName="weight"
-            class="weightInputBox">
-            @if(BMIDataInputForm.controls.weight.invalid && BMIDataInputForm.controls.weight.touched) {
-                <p style="color:red">体重を入力してください。</p>
-            }
-        </div>
-        <button type="submit" [disabled]="BMIDataInputForm.invalid" class="calcButton">計算する</button>
-    </form>
-    <div class="bmiAnswer">BMI : {{bmi}}</div>
-    <div class="bmiAsses" [style.color]="color">{{assessment}}</div>
-    <div>身長の適正体重 : {{(((height/100)**2)*22).toFixed(1)}}Kg</div>
-    <div>適正体重との差 : {{abs((weight-(((height/100)**2)*22))).toFixed(1)}}Kg</div>
-    <button class="routeHome" routerLink="" >HOMEに戻る</button>
-    <div></div>
+
+        <!-- ホームに戻るボタン -->
+        <button class="routeHome" routerLink="">
+            ← HOMEに戻る
+        </button>
+    </div>
 </div>

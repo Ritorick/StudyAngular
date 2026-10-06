@@ -4,5 +4,5 @@ import { StudyBMI } from './study-bmi/study-bmi';
 
 export const routes: Routes = [
     { path: '' , component: Home},
-    { path: 'study-bmi', component: StudyBMI }
+    { path: 'study-bmi/:user_id', component: StudyBMI }
 ];

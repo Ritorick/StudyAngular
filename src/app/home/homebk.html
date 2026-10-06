@@ -1,0 +1,18 @@
+<div class="container">
+  @if(isServerRunning()) {
+    <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="input">
+        <div>
+            <label for="user_id">ユーザーID</label><br>
+            <input
+            id="user_id"
+            type="number"
+            formControlName="user_id"
+            class="heightInputBox">
+            @if(LoginForm.controls.user_id.invalid && LoginForm.controls.user_id.touched) {
+                <p style="color:red">ユーザーIDを入力してください。</p>
+            }
+        </div>
+        <button type="submit" [disabled]="LoginForm.invalid" class="calcButton">ログイン</button>
+    </form>
+  }
+</div>

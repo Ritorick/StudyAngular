@@ -1,15 +1,23 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal, OnInit, ChangeDetectorRef } from '@angular/core';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
-
+import { BmiApiService } from '../services/bmi-api.service';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-study-bmi',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule,BaseChartDirective],
   templateUrl: './study-bmi.html',
   styleUrl: './study-bmi.css',
 })
-export class StudyBMI {
+
+export class StudyBMI implements OnInit {
+  constructor(
+    private bmiApi: BmiApiService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
   protected readonly title = signal('hello-world-app');
 
   bmi: number = 0;
@@ -17,6 +25,54 @@ export class StudyBMI {
   weight: number = 0;
   assessment: String = "";
   color = 'white';
+
+  user_id:number = 0;
+
+  loadRecords(): void {
+    this.bmiApi.getRecords(30, this.user_id).subscribe({
+      next: result => {
+        console.log(result);
+        this.chartData = {
+          labels: result.map(record => {
+            const date = new Date(record.created_at);
+            return `${date.getMonth()+1}/${date.getDate()}`
+          }),
+          datasets: [
+            {
+              data: result.map(record => record.bmi),
+              label: 'BMI',
+              tension: 0.4
+            }
+          ]
+        };
+        this.cdr.detectChanges();
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
+  }
+
+  postRecord(user_id:number, height:number, weight:number):void {
+    this.bmiApi.addRecord(
+      user_id,
+      height,
+      weight
+    ).subscribe({
+      next: result => {
+        console.log('POST成功:', result);
+        this.loadRecords();
+      },
+      error: error => {
+        console.error('POST失敗:', error);
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.user_id = Number(this.route.snapshot.paramMap.get("user_id"));
+    this.loadRecords();
+  }
 
   abs(value:number) {
     return Math.abs(value);
@@ -31,11 +87,26 @@ export class StudyBMI {
     ])
   });
 
+  chartData: ChartData<'line'> = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'BMI',
+        tension: 0.4
+      }
+    ]
+  };
+  chartOptions: ChartOptions<'line'> = {
+    responsive: true
+  };
+
   onSubmit() {
     const weight = Number(this.BMIDataInputForm.value.weight);
     const height = Number(this.BMIDataInputForm.value.height);
 
     this.bmi = Number((weight / ((height / 100) ** 2)).toFixed(1));
+
     this.height = height;
     this.weight = weight;
     if (this.bmi >= 40) {
@@ -57,5 +128,9 @@ export class StudyBMI {
       this.assessment = "低体重";
       this.color = 'blue'
     }
+
+    this.postRecord(this.user_id, height, weight);
+    this.loadRecords();
+    this.cdr.detectChanges();
   }
 }

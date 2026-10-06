@@ -1,9 +1,33 @@
-<div class="container">
-  <div style="margin: auto;">AngularStudy</div>
+<div class="home-wrapper">
+    <div class="container">
+        @if(isServerRunning()) {
+            <div class="login-card">
+                <div class="login-header">
+                    <h2 class="login-title">ログイン</h2>
+                    <p class="login-subtitle">ユーザーIDを入力してシステムにアクセスしてください</p>
+                </div>
 
-  @if(isServerRunning()) {
-    <button class="test" (click)="onClick($event)">{{ClickTest}}</button>
-    <button class="reset" (click)="onClick($event)">Reset</button>
-    <button class="routeBMI" routerLink="/study-bmi">BMIサイトへ移動</button>
-  }
+                <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="input">
+                    <div class="input-group">
+                        <label for="user_id">ユーザーID</label>
+                        <div class="input-field-wrapper">
+                            <input
+                                id="user_id"
+                                type="number"
+                                formControlName="user_id"
+                                class="heightInputBox"
+                                placeholder="例: 12345">
+                        </div>
+                        @if(LoginForm.controls.user_id.invalid && LoginForm.controls.user_id.touched) {
+                            <p class="error-msg">⚠️ ユーザーIDを入力してください。</p>
+                        }
+                    </div>
+
+                    <button type="submit" [disabled]="LoginForm.invalid" class="calcButton">
+                        ログイン
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
 </div>
