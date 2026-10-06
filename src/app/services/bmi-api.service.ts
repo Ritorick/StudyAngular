@@ -16,7 +16,7 @@ export interface BmiRecord {
 
 export class BmiApiService {
 
-  private apiUrl = 'http://nessdrop.com:3000/api/records';
+  private apiUrl = 'https://nessdrop.com/api/records';
 
   constructor(private http: HttpClient) {}
 
