@@ -21,6 +21,14 @@
     "directories": {
       "output": "release"
     },
+    "files": [
+      "electron/**",
+      "dist/hello-world-app/browser/**",
+      "!**/node_modules/**"
+    ],
+    "portable": {
+      "splashImage": "electron/portable-splash.bmp"
+    },
     "win": {
       "target": "portable"
     }
