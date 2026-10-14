@@ -1,0 +1,99 @@
+<div class="home-wrapper">
+    <div class="container">
+        @if(isServerRunning()) {
+            <div class="login-card">
+                <div class="login-header">
+                    <h2 class="login-title">新規登録</h2>
+                    <p class="login-subtitle">ユーザーIDとパスワードを設定してアカウントを作成してください</p>
+                </div>
+
+                <form [formGroup]="RegisterForm" (ngSubmit)="onSubmit()" class="input">
+                    <div class="input-group">
+                        <label for="username">ユーザーID</label>
+                        <div class="input-field-wrapper">
+                            <input
+                                id="username"
+                                type="text"
+                                formControlName="username"
+                                class="loginInputBox"
+                                placeholder="登録するユーザーIDを入力">
+                        </div>
+                        @if(RegisterForm.controls.username.invalid && RegisterForm.controls.username.touched) {
+                            <p class="error-msg">⚠️ 登録するユーザーIDを入力してください。</p>
+                        }
+
+                        <label for="password">パスワード</label>
+                        <div class="input-field-wrapper">
+                            <input
+                                id="password"
+                                [type]="showPassword ? 'text' : 'password'"
+                                formControlName="password"
+                                class="loginInputBox password-input"
+                                placeholder="登録するパスワードを入力">
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                (click)="showPassword = !showPassword"
+                                [attr.aria-label]="showPassword ? 'パスワードを隠す' : 'パスワードを表示'"
+                                [attr.aria-pressed]="showPassword"
+                                aria-controls="password">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                    @if(showPassword) {
+                                        <path d="m3 3 18 18" />
+                                    }
+                                </svg>
+                            </button>
+                        </div>
+                        @if(RegisterForm.controls.password.invalid && RegisterForm.controls.password.touched) {
+                            <p class="error-msg">⚠️ 登録するパスワードを入力してください</p>
+                        }
+
+                        <label for="confirmPassword">パスワード（確認）</label>
+                        <div class="input-field-wrapper">
+                            <input
+                                id="confirmPassword"
+                                [type]="showConfirmPassword ? 'text' : 'password'"
+                                formControlName="confirmPassword"
+                                class="loginInputBox password-input"
+                                placeholder="同じパスワードをもう一度入力">
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                (click)="showConfirmPassword = !showConfirmPassword"
+                                [attr.aria-label]="showConfirmPassword ? '確認用パスワードを隠す' : '確認用パスワードを表示'"
+                                [attr.aria-pressed]="showConfirmPassword"
+                                aria-controls="confirmPassword">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                    @if(showConfirmPassword) {
+                                        <path d="m3 3 18 18" />
+                                    }
+                                </svg>
+                            </button>
+                        </div>
+                        @if(RegisterForm.controls.confirmPassword.invalid && RegisterForm.controls.confirmPassword.touched) {
+                            <p class="error-msg">⚠️ 確認用のパスワードを入力してください</p>
+                        }
+                        @if(RegisterForm.hasError('passwordMismatch') && RegisterForm.controls.confirmPassword.touched) {
+                            <p class="error-msg">⚠️ パスワードが一致していません</p>
+                        }
+                    </div>
+
+                    <button type="submit" [disabled]="RegisterForm.invalid" class="loginButton">
+                        新規登録
+                    </button>
+                    @if (registerError) {
+                        <p class="error-msg">{{registerError}}</p>
+                    }
+
+                    <button routerLink="/register" [disabled]="registerDisable" class="loginButton">
+                        ログインページ
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

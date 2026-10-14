@@ -26,10 +26,10 @@ export class StudyBMI implements OnInit {
   assessment: String = "";
   color = 'white';
 
-  user_id:number = 0;
+  user_id:string = "";
 
   loadRecords(): void {
-    this.bmiApi.getRecords(30, this.user_id).subscribe({
+    this.bmiApi.getRecords(30, `'${this.user_id}'`).subscribe({
       next: result => {
         console.log(result);
         this.chartData = {
@@ -53,7 +53,7 @@ export class StudyBMI implements OnInit {
     });
   }
 
-  postRecord(user_id:number, height:number, weight:number):void {
+  postRecord(user_id:string, height:number, weight:number):void {
     this.bmiApi.addRecord(
       user_id,
       height,
@@ -70,7 +70,7 @@ export class StudyBMI implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user_id = Number(this.route.snapshot.paramMap.get("user_id"));
+    this.user_id = String(this.route.snapshot.paramMap.get("user_id"));
     this.loadRecords();
   }
 

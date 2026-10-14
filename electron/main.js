@@ -13,6 +13,8 @@ function createWindow() {
         }
     });
 
+    mainWindow.removeMenu();
+
     mainWindow.loadFile(
         path.join(__dirname, '../dist/hello-world-app/browser/index.html')
     );

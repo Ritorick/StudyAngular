@@ -9,23 +9,48 @@
 
                 <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="input">
                     <div class="input-group">
-                        <label for="user_id">ユーザーID</label>
+                        <label for="username">ユーザーID</label>
                         <div class="input-field-wrapper">
                             <input
-                                id="user_id"
-                                type="number"
-                                formControlName="user_id"
-                                class="heightInputBox"
-                                placeholder="例: 12345">
+                                id="username"
+                                type="text"
+                                formControlName="username"
+                                class="loginInputBox"
+                                placeholder="例: yamada.tarou">
                         </div>
-                        @if(LoginForm.controls.user_id.invalid && LoginForm.controls.user_id.touched) {
+                        @if(LoginForm.controls.username.invalid && LoginForm.controls.username.touched) {
                             <p class="error-msg">⚠️ ユーザーIDを入力してください。</p>
+                        }
+
+                        <label for="password">パスワード</label>
+                        <div class="input-field-wrapper">
+                            <input
+                                id="password"
+                                type="password"
+                                formControlName="password"
+                                class="loginInputBox"
+                                placeholder="例: abcd1234">
+                        </div>
+                        @if(LoginForm.controls.password.invalid && LoginForm.controls.password.touched) {
+                            <p class="error-msg">⚠️ パスワードを入力してください</p>
                         }
                     </div>
 
-                    <button type="submit" [disabled]="LoginForm.invalid" class="calcButton">
+                    <button type="submit" [disabled]="LoginForm.invalid" class="loginButton">
                         ログイン
                     </button>
+                    @if (loginError) {
+                        <p class="error-msg">{{loginError}}</p>
+                    }
+                    @if (accountNotFound) {
+                        <button routerLink="/register" class="registerButton">
+                            新規作成
+                        </button>
+                    } @else {
+                        <a routerLink="/register" style="color: blue; text-align: center; font-size:small;">
+                            新規作成
+                        </a>
+                    }
                 </form>
             </div>
         }
