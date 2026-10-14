@@ -19,7 +19,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 440px; /* ログイン画面としてコンパクトで美しい幅 */
+    max-width: 440px;
     margin: 0 auto;
     white-space: pre-line;
     box-sizing: border-box;
@@ -86,7 +86,6 @@
     width: 100%;
 }
 
-/* 入力ボックス（BMI画面とデザインを統一） */
 .loginInputBox {
     width: 100%;
     height: 50px;
@@ -184,7 +183,6 @@
     transform: none;
 }
 
-/* 画面サイズに応じた微調整 */
 @media (max-width: 480px) {
     :host {
         padding: 20px 12px;
